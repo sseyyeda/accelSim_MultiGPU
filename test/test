@@ -1,0 +1,893 @@
+Accel-Sim [build accelsim-commit-317377004c5b4b29b3ba662157a27bd894ac42b3_modified_1.0]
+
+        *** GPGPU-Sim Simulator Version 4.2.0  [build gpgpu-sim_git-commit-18a2275454f2e77e51622ee06bf7defa8f19e7dd_modified_0.0] ***
+
+
+GPGPU-Sim: Configuration options:
+
+-save_embedded_ptx                      0 # saves ptx files embedded in binary as <n>.ptx
+-keep                                   0 # keep intermediate files created by GPGPU-Sim when interfacing with external programs
+-gpgpu_ptx_save_converted_ptxplus                    0 # Saved converted ptxplus to a file
+-gpgpu_occupancy_sm_number                   86 # The SM number to pass to ptxas when getting register usage for computing GPU occupancy. This parameter is required in the config.
+-ptx_opcode_latency_int           4,4,4,4,21 # Opcode latencies for integers <ADD,MAX,MUL,MAD,DIV,SHFL>Default 1,1,19,25,145,32
+-ptx_opcode_latency_fp           4,4,4,4,39 # Opcode latencies for single precision floating points <ADD,MAX,MUL,MAD,DIV>Default 1,1,1,1,30
+-ptx_opcode_latency_dp      64,64,64,64,330 # Opcode latencies for double precision floating points <ADD,MAX,MUL,MAD,DIV>Default 8,8,8,8,335
+-ptx_opcode_latency_sfu                   21 # Opcode latencies for SFU instructionsDefault 8
+-ptx_opcode_latency_tesnor                   64 # Opcode latencies for Tensor instructionsDefault 64
+-ptx_opcode_initiation_int            2,2,2,2,2 # Opcode initiation intervals for integers <ADD,MAX,MUL,MAD,DIV,SHFL>Default 1,1,4,4,32,4
+-ptx_opcode_initiation_fp            1,1,1,1,2 # Opcode initiation intervals for single precision floating points <ADD,MAX,MUL,MAD,DIV>Default 1,1,1,1,5
+-ptx_opcode_initiation_dp      64,64,64,64,130 # Opcode initiation intervals for double precision floating points <ADD,MAX,MUL,MAD,DIV>Default 8,8,8,8,130
+-ptx_opcode_initiation_sfu                    8 # Opcode initiation intervals for sfu instructionsDefault 8
+-ptx_opcode_initiation_tensor                   64 # Opcode initiation intervals for tensor instructionsDefault 64
+-cdp_latency         7200,8000,100,12000,1600 # CDP API latency <cudaStreamCreateWithFlags, cudaGetParameterBufferV2_init_perWarp, cudaGetParameterBufferV2_perKernel, cudaLaunchDeviceV2_init_perWarp, cudaLaunchDevicV2_perKernel>Default 7200,8000,100,12000,1600
+-network_mode                           2 # Interconnection network mode
+-inter_config_file                   mesh # Interconnection network config file
+-icnt_in_buffer_limit                  512 # in_buffer_limit
+-icnt_out_buffer_limit                  512 # out_buffer_limit
+-icnt_subnets                           2 # subnets
+-icnt_arbiter_algo                      1 # arbiter_algo
+-icnt_verbose                           0 # inct_verbose
+-icnt_grant_cycles                      1 # grant_cycles
+-gpgpu_ptx_use_cuobjdump                    1 # Use cuobjdump to extract ptx and sass from binaries
+-gpgpu_experimental_lib_support                    0 # Try to extract code from cuda libraries [Broken because of unknown cudaGetExportTable]
+-checkpoint_option                      0 #  checkpointing flag (0 = no checkpoint)
+-checkpoint_kernel                      1 #  checkpointing during execution of which kernel (1- 1st kernel)
+-checkpoint_CTA                         0 #  checkpointing after # of CTA (< less than total CTA)
+-resume_option                          0 #  resume flag (0 = no resume)
+-resume_kernel                          0 #  Resume from which kernel (1= 1st kernel)
+-resume_CTA                             0 #  resume from which CTA 
+-checkpoint_CTA_t                       0 #  resume from which CTA 
+-checkpoint_insn_Y                      0 #  resume from which CTA 
+-gpgpu_ptx_convert_to_ptxplus                    0 # Convert SASS (native ISA) to ptxplus and run ptxplus
+-gpgpu_ptx_force_max_capability                   86 # Force maximum compute capability
+-gpgpu_ptx_inst_debug_to_file                    0 # Dump executed instructions' debug information to file
+-gpgpu_ptx_inst_debug_file       inst_debug.txt # Executed instructions' debug output file
+-gpgpu_ptx_inst_debug_thread_uid                    1 # Thread UID for executed instructions' debug output
+-gpgpu_simd_model                       1 # 1 = post-dominator
+-gpgpu_shader_core_pipeline              1536:32 # shader core pipeline config, i.e., {<nthread>:<warpsize>}
+-gpgpu_tex_cache:l1  N:4:128:256,L:R:m:N:L,T:512:8,128:2 # per-shader L1 texture cache  (READ-ONLY) config  {<nsets>:<bsize>:<assoc>,<rep>:<wr>:<alloc>:<wr_alloc>,<mshr>:<N>:<merge>,<mq>:<rf>}
+-gpgpu_const_cache:l1 N:128:64:8,L:R:f:N:L,S:2:64,4 # per-shader L1 constant memory cache  (READ-ONLY) config  {<nsets>:<bsize>:<assoc>,<rep>:<wr>:<alloc>:<wr_alloc>,<mshr>:<N>:<merge>,<mq>} 
+-gpgpu_cache:il1     N:64:128:16,L:R:f:N:L,S:2:48,4 # shader L1 instruction cache config  {<nsets>:<bsize>:<assoc>,<rep>:<wr>:<alloc>:<wr_alloc>,<mshr>:<N>:<merge>,<mq>} 
+-gpgpu_cache:dl1     S:4:128:256,L:T:m:L:L,A:384:48,16:0,32 # per-shader L1 data cache config  {<nsets>:<bsize>:<assoc>,<rep>:<wr>:<alloc>:<wr_alloc>,<mshr>:<N>:<merge>,<mq> | none}
+-gpgpu_l1_cache_write_ratio                   25 # L1D write ratio
+-gpgpu_l1_banks                         4 # The number of L1 cache banks
+-gpgpu_l1_banks_byte_interleaving                   32 # l1 banks byte interleaving granularity
+-gpgpu_l1_banks_hashing_function                    0 # l1 banks hashing function
+-gpgpu_l1_latency                      39 # L1 Hit Latency
+-gpgpu_smem_latency                    29 # smem Latency
+-gpgpu_cache:dl1PrefL1                 none # per-shader L1 data cache config  {<nsets>:<bsize>:<assoc>,<rep>:<wr>:<alloc>:<wr_alloc>,<mshr>:<N>:<merge>,<mq> | none}
+-gpgpu_cache:dl1PrefShared                 none # per-shader L1 data cache config  {<nsets>:<bsize>:<assoc>,<rep>:<wr>:<alloc>:<wr_alloc>,<mshr>:<N>:<merge>,<mq> | none}
+-gpgpu_gmem_skip_L1D                    0 # global memory access skip L1D cache (implements -Xptxas -dlcm=cg, default=no skip)
+-gpgpu_perfect_mem                      0 # enable perfect memory mode (no cache miss)
+-n_regfile_gating_group                    4 # group of lanes that should be read/written together)
+-gpgpu_clock_gated_reg_file                    0 # enable clock gated reg file for power calculations
+-gpgpu_clock_gated_lanes                    0 # enable clock gated lanes for power calculations
+-gpgpu_shader_registers                65536 # Number of registers per shader core. Limits number of concurrent CTAs. (default 8192)
+-gpgpu_registers_per_block                65536 # Maximum number of registers per CTA. (default 8192)
+-gpgpu_ignore_resources_limitation                    0 # gpgpu_ignore_resources_limitation (default 0)
+-gpgpu_shader_cta                      32 # Maximum number of concurrent CTAs in shader (default 8)
+-gpgpu_num_cta_barriers                   16 # Maximum number of named barriers per CTA (default 16)
+-gpgpu_n_chiplets                       4 # number of chiplets
+-gpgpu_n_clusters                      40 # number of processing clusters
+-gpgpu_n_cores_per_cluster                    1 # number of simd cores per cluster
+-gpgpu_n_cluster_ejection_buffer_size                   32 # number of packets in ejection buffer
+-gpgpu_n_ldst_response_buffer_size                    2 # number of response packets in ld/st unit ejection buffer
+-gpgpu_shmem_per_block                49152 # Size of shared memory per thread block or CTA (default 48kB)
+-gpgpu_shmem_size                  102400 # Size of shared memory per shader core (default 16kB)
+-gpgpu_shmem_option      0,8,16,32,64,100 # Option list of shared memory sizes
+-gpgpu_unified_l1d_size                  128 # Size of unified data cache(L1D + shared memory) in KB
+-gpgpu_adaptive_cache_config                    1 # adaptive_cache_config
+-gpgpu_shmem_sizeDefault               102400 # Size of shared memory per shader core (default 16kB)
+-gpgpu_shmem_size_PrefL1                16384 # Size of shared memory per shader core (default 16kB)
+-gpgpu_shmem_size_PrefShared                16384 # Size of shared memory per shader core (default 16kB)
+-gpgpu_shmem_num_banks                   32 # Number of banks in the shared memory in each shader core (default 16)
+-gpgpu_shmem_limited_broadcast                    0 # Limit shared memory to do one broadcast per cycle (default on)
+-gpgpu_shmem_warp_parts                    1 # Number of portions a warp is divided into for shared memory bank conflict check 
+-gpgpu_mem_unit_ports                    1 # The number of memory transactions allowed per core cycle
+-gpgpu_shmem_warp_parts                    1 # Number of portions a warp is divided into for shared memory bank conflict check 
+-gpgpu_warpdistro_shader                   -1 # Specify which shader core to collect the warp size distribution from
+-gpgpu_warp_issue_shader                    0 # Specify which shader core to collect the warp issue distribution from
+-gpgpu_local_mem_map                    1 # Mapping from local memory space address to simulated GPU physical address space (default = enabled)
+-gpgpu_num_reg_banks                    8 # Number of register banks (default = 8)
+-gpgpu_reg_bank_use_warp_id                    0 # Use warp ID in mapping registers to banks (default = off)
+-gpgpu_sub_core_model                    1 # Sub Core Volta/Pascal model (default = off)
+-gpgpu_enable_specialized_operand_collector                    0 # enable_specialized_operand_collector
+-gpgpu_operand_collector_num_units_sp                    4 # number of collector units (default = 4)
+-gpgpu_operand_collector_num_units_dp                    0 # number of collector units (default = 0)
+-gpgpu_operand_collector_num_units_sfu                    4 # number of collector units (default = 4)
+-gpgpu_operand_collector_num_units_int                    0 # number of collector units (default = 0)
+-gpgpu_operand_collector_num_units_tensor_core                    4 # number of collector units (default = 4)
+-gpgpu_operand_collector_num_units_mem                    2 # number of collector units (default = 2)
+-gpgpu_operand_collector_num_units_gen                    8 # number of collector units (default = 0)
+-gpgpu_operand_collector_num_in_ports_sp                    1 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_in_ports_dp                    0 # number of collector unit in ports (default = 0)
+-gpgpu_operand_collector_num_in_ports_sfu                    1 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_in_ports_int                    0 # number of collector unit in ports (default = 0)
+-gpgpu_operand_collector_num_in_ports_tensor_core                    1 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_in_ports_mem                    1 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_in_ports_gen                    8 # number of collector unit in ports (default = 0)
+-gpgpu_operand_collector_num_out_ports_sp                    1 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_out_ports_dp                    0 # number of collector unit in ports (default = 0)
+-gpgpu_operand_collector_num_out_ports_sfu                    1 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_out_ports_int                    0 # number of collector unit in ports (default = 0)
+-gpgpu_operand_collector_num_out_ports_tensor_core                    1 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_out_ports_mem                    1 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_out_ports_gen                    8 # number of collector unit in ports (default = 0)
+-gpgpu_coalesce_arch                   86 # Coalescing arch (GT200 = 13, Fermi = 20)
+-gpgpu_num_sched_per_core                    4 # Number of warp schedulers per core
+-gpgpu_max_insn_issue_per_warp                    1 # Max number of instructions that can be issued per warp in one cycle by scheduler (either 1 or 2)
+-gpgpu_dual_issue_diff_exec_units                    1 # should dual issue use two different execution unit resources (Default = 1)
+-gpgpu_simt_core_sim_order                    1 # Select the simulation order of cores in a cluster (0=Fix, 1=Round-Robin)
+-gpgpu_pipeline_widths 4,4,4,4,4,4,4,4,4,4,8,4,4 # Pipeline widths ID_OC_SP,ID_OC_DP,ID_OC_INT,ID_OC_SFU,ID_OC_MEM,OC_EX_SP,OC_EX_DP,OC_EX_INT,OC_EX_SFU,OC_EX_MEM,EX_WB,ID_OC_TENSOR_CORE,OC_EX_TENSOR_CORE
+-gpgpu_tensor_core_avail                    1 # Tensor Core Available (default=0)
+-gpgpu_num_sp_units                     4 # Number of SP units (default=1)
+-gpgpu_num_dp_units                     4 # Number of DP units (default=0)
+-gpgpu_num_int_units                    4 # Number of INT units (default=0)
+-gpgpu_num_sfu_units                    4 # Number of SF units (default=1)
+-gpgpu_num_tensor_core_units                    4 # Number of tensor_core units (default=1)
+-gpgpu_num_mem_units                    1 # Number if ldst units (default=1) WARNING: not hooked up to anything
+-gpgpu_scheduler                      lrr # Scheduler configuration: < lrr | gto | two_level_active > If two_level_active:<num_active_warps>:<inner_prioritization>:<outer_prioritization>For complete list of prioritization values see shader.h enum scheduler_prioritization_typeDefault: gto
+-gpgpu_concurrent_kernel_sm                    0 # Support concurrent kernels on a SM (default = disabled)
+-gpgpu_perfect_inst_const_cache                    1 # perfect inst and const cache mode, so all inst and const hits in the cache(default = disabled)
+-gpgpu_inst_fetch_throughput                    4 # the number of fetched intruction per warp each cycle
+-gpgpu_reg_file_port_throughput                    2 # the number ports of the register file
+-specialized_unit_1         1,4,4,4,4,BRA # specialized unit config {<enabled>,<num_units>:<latency>:<initiation>,<ID_OC_SPEC>:<OC_EX_SPEC>,<NAME>}
+-specialized_unit_2       1,4,200,4,4,TEX # specialized unit config {<enabled>,<num_units>:<latency>:<initiation>,<ID_OC_SPEC>:<OC_EX_SPEC>,<NAME>}
+-specialized_unit_3     1,4,32,4,4,TENSOR # specialized unit config {<enabled>,<num_units>:<latency>:<initiation>,<ID_OC_SPEC>:<OC_EX_SPEC>,<NAME>}
+-specialized_unit_4         1,4,4,4,4,UDP # specialized unit config {<enabled>,<num_units>:<latency>:<initiation>,<ID_OC_SPEC>:<OC_EX_SPEC>,<NAME>}
+-specialized_unit_5         0,4,4,4,4,BRA # specialized unit config {<enabled>,<num_units>:<latency>:<initiation>,<ID_OC_SPEC>:<OC_EX_SPEC>,<NAME>}
+-specialized_unit_6         0,4,4,4,4,BRA # specialized unit config {<enabled>,<num_units>:<latency>:<initiation>,<ID_OC_SPEC>:<OC_EX_SPEC>,<NAME>}
+-specialized_unit_7         0,4,4,4,4,BRA # specialized unit config {<enabled>,<num_units>:<latency>:<initiation>,<ID_OC_SPEC>:<OC_EX_SPEC>,<NAME>}
+-specialized_unit_8         0,4,4,4,4,BRA # specialized unit config {<enabled>,<num_units>:<latency>:<initiation>,<ID_OC_SPEC>:<OC_EX_SPEC>,<NAME>}
+-gpgpu_perf_sim_memcpy                    1 # Fill the L2 cache on memcpy
+-gpgpu_simple_dram_model                    0 # simple_dram_model with fixed latency and BW
+-gpgpu_dram_scheduler                    1 # 0 = fifo, 1 = FR-FCFS (defaul)
+-gpgpu_dram_partition_queues          64:64:64:64 # i2$:$2d:d2$:$2i
+-l2_ideal                               0 # Use a ideal L2 cache that always hit
+-gpgpu_cache:dl2     S:64:128:16,L:B:m:L:P,A:192:4,32:0,32 # unified banked L2 data cache config  {<nsets>:<bsize>:<assoc>,<rep>:<wr>:<alloc>:<wr_alloc>,<mshr>:<N>:<merge>,<mq>}
+-gpgpu_cache:dl2_texture_only                    0 # L2 cache used for texture only
+-gpgpu_n_mem                           16 # number of memory modules (e.g. memory controllers) in gpu
+-gpgpu_n_sub_partition_per_mchannel                    2 # number of memory subpartition in each memory module
+-gpgpu_n_mem_per_ctrlr                    1 # number of memory chips per memory controller
+-gpgpu_memlatency_stat                   14 # track and display latency statistics 0x2 enables MC, 0x4 enables queue logs
+-gpgpu_frfcfs_dram_sched_queue_size                   64 # 0 = unlimited (default); # entries per chip
+-gpgpu_dram_return_queue_size                  192 # 0 = unlimited (default); # entries per chip
+-gpgpu_dram_buswidth                    2 # default = 4 bytes (8 bytes per cycle at DDR)
+-gpgpu_dram_burst_length                   16 # Burst length of each DRAM request (default = 4 data bus cycle)
+-dram_data_command_freq_ratio                    4 # Frequency ratio between DRAM data bus and command bus (default = 2 times, i.e. DDR)
+-gpgpu_dram_timing_opt nbk=16:CCD=4:RRD=12:RCD=24:RAS=55:RP=24:RC=78:CL=24:WL=8:CDLR=10:WR=24:nbkgrp=4:CCDL=6:RTPL=4 # DRAM timing parameters = {nbk:tCCD:tRRD:tRCD:tRAS:tRP:tRC:CL:WL:tCDLR:tWR:nbkgrp:tCCDL:tRTPL}
+-gpgpu_l2_rop_latency                  187 # ROP queue latency (default 85)
+-dram_latency                         254 # DRAM latency (default 30)
+-dram_dual_bus_interface                    0 # dual_bus_interface (default = 0) 
+-dram_bnk_indexing_policy                    0 # dram_bnk_indexing_policy (0 = normal indexing, 1 = Xoring with the higher bits) (Default = 0)
+-dram_bnkgrp_indexing_policy                    1 # dram_bnkgrp_indexing_policy (0 = take higher bits, 1 = take lower bits) (Default = 0)
+-dram_seperate_write_queue_enable                    0 # Seperate_Write_Queue_Enable
+-dram_write_queue_size             32:28:16 # Write_Queue_Size
+-dram_elimnate_rw_turnaround                    0 # elimnate_rw_turnaround i.e set tWTR and tRTW = 0
+-icnt_flit_size                        40 # icnt_flit_size
+-gpgpu_mem_addr_mapping dramid@8;00000000.00000000.00000000.00000000.0000RRRR.RRRRRRRR.RBBBCCCC.BCCSSSSS # mapping memory address to dram model {dramid@<start bit>;<memory address map>}
+-gpgpu_mem_addr_test                    0 # run sweep test to check address mapping for aliased address
+-gpgpu_mem_address_mask                    1 # 0 = old addressing mask, 1 = new addressing mask, 2 = new add. mask + flipped bank sel and chip sel bits
+-gpgpu_memory_partition_indexing                    2 # 0 = no indexing, 1 = bitwise xoring, 2 = IPoly, 3 = custom indexing
+-accelwattch_xml_file accelwattch_sass_sim.xml # AccelWattch XML file
+-power_simulation_enabled                    0 # Turn on power simulator (1=On, 0=Off)
+-power_per_cycle_dump                    0 # Dump detailed power output each cycle
+-hw_perf_file_name            hw_perf.csv # Hardware Performance Statistics file
+-hw_perf_bench_name                       # Kernel Name in Hardware Performance Statistics file
+-power_simulation_mode                    0 # Switch performance counter input for power simulation (0=Sim, 1=HW, 2=HW-Sim Hybrid)
+-dvfs_enabled                           0 # Turn on DVFS for power model
+-aggregate_power_stats                    0 # Accumulate power across all kernels
+-accelwattch_hybrid_perfsim_L1_RH                    0 # Get L1 Read Hits for Accelwattch-Hybrid from Accel-Sim
+-accelwattch_hybrid_perfsim_L1_RM                    0 # Get L1 Read Misses for Accelwattch-Hybrid from Accel-Sim
+-accelwattch_hybrid_perfsim_L1_WH                    0 # Get L1 Write Hits for Accelwattch-Hybrid from Accel-Sim
+-accelwattch_hybrid_perfsim_L1_WM                    0 # Get L1 Write Misses for Accelwattch-Hybrid from Accel-Sim
+-accelwattch_hybrid_perfsim_L2_RH                    0 # Get L2 Read Hits for Accelwattch-Hybrid from Accel-Sim
+-accelwattch_hybrid_perfsim_L2_RM                    0 # Get L2 Read Misses for Accelwattch-Hybrid from Accel-Sim
+-accelwattch_hybrid_perfsim_L2_WH                    0 # Get L2 Write Hits for Accelwattch-Hybrid from Accel-Sim
+-accelwattch_hybrid_perfsim_L2_WM                    0 # Get L2 Write Misses for Accelwattch-Hybrid from Accel-Sim
+-accelwattch_hybrid_perfsim_CC_ACC                    0 # Get Constant Cache Acesses for Accelwattch-Hybrid from Accel-Sim
+-accelwattch_hybrid_perfsim_SHARED_ACC                    0 # Get Shared Memory Acesses for Accelwattch-Hybrid from Accel-Sim
+-accelwattch_hybrid_perfsim_DRAM_RD                    0 # Get DRAM Reads for Accelwattch-Hybrid from Accel-Sim
+-accelwattch_hybrid_perfsim_DRAM_WR                    0 # Get DRAM Writes for Accelwattch-Hybrid from Accel-Sim
+-accelwattch_hybrid_perfsim_NOC                    0 # Get Interconnect Acesses for Accelwattch-Hybrid from Accel-Sim
+-accelwattch_hybrid_perfsim_PIPE_DUTY                    0 # Get Pipeline Duty Cycle Acesses for Accelwattch-Hybrid from Accel-Sim
+-accelwattch_hybrid_perfsim_NUM_SM_IDLE                    0 # Get Number of Idle SMs for Accelwattch-Hybrid from Accel-Sim
+-accelwattch_hybrid_perfsim_CYCLES                    0 # Get Executed Cycles for Accelwattch-Hybrid from Accel-Sim
+-accelwattch_hybrid_perfsim_VOLTAGE                    0 # Get Chip Voltage for Accelwattch-Hybrid from Accel-Sim
+-power_trace_enabled                    0 # produce a file for the power trace (1=On, 0=Off)
+-power_trace_zlevel                     6 # Compression level of the power trace output log (0=no comp, 9=highest)
+-steady_power_levels_enabled                    0 # produce a file for the steady power levels (1=On, 0=Off)
+-steady_state_definition                  8:4 # allowed deviation:number of samples
+-gpgpu_max_cycle                        0 # terminates gpu simulation early (0 = no limit)
+-gpgpu_max_insn                         0 # terminates gpu simulation early (0 = no limit)
+-gpgpu_max_cta                          0 # terminates gpu simulation early (0 = no limit)
+-gpgpu_max_completed_cta                    0 # terminates gpu simulation early (0 = no limit)
+-gpgpu_runtime_stat                   500 # display runtime statistics such as dram utilization {<freq>:<flag>}
+-liveness_message_freq                    1 # Minimum number of seconds between simulation liveness messages (0 = always print)
+-gpgpu_compute_capability_major                    8 # Major compute capability version number
+-gpgpu_compute_capability_minor                    6 # Minor compute capability version number
+-gpgpu_flush_l1_cache                    1 # Flush L1 cache at the end of each kernel call
+-gpgpu_flush_l2_cache                    0 # Flush L2 cache at the end of each kernel call
+-gpgpu_deadlock_detect                    1 # Stop the simulation at deadlock (1=on (default), 0=off)
+-gpgpu_ptx_instruction_classification                    0 # if enabled will classify ptx instruction types per kernel (Max 255 kernels now)
+-gpgpu_ptx_sim_mode                     0 # Select between Performance (default) or Functional simulation (1)
+-gpgpu_clock_domains 1132:1132:1132:1132:3500.5 # Clock Domain Frequencies in MhZ {<Core Clock>:<ICNT Clock>:<Inter-chiplet ICNT Clock>:<L2 Clock>:<DRAM Clock>}
+-gpgpu_max_concurrent_kernel                    8 # maximum kernels that can run concurrently on GPU
+-gpgpu_cflog_interval                    0 # Interval between each snapshot in control flow logger
+-visualizer_enabled                     0 # Turn on visualizer output (1=On, 0=Off)
+-visualizer_outputfile                 NULL # Specifies the output log file for visualizer
+-visualizer_zlevel                      6 # Compression level of the visualizer output log (0=no comp, 9=highest)
+-gpgpu_stack_size_limit                 1024 # GPU thread stack size
+-gpgpu_heap_size_limit              8388608 # GPU malloc heap size 
+-gpgpu_runtime_sync_depth_limit                    2 # GPU device runtime synchronize depth
+-gpgpu_runtime_pending_launch_count_limit                 2048 # GPU device runtime pending launch count
+-trace_enabled                          0 # Turn on traces
+-trace_components                    none # comma seperated list of traces to enable. Complete list found in trace_streams.tup. Default none
+-trace_sampling_core                    0 # The core which is printed using CORE_DPRINTF. Default 0
+-trace_sampling_memory_partition                   -1 # The memory partition which is printed using MEMPART_DPRINTF. Default -1 (i.e. all)
+-enable_ptx_file_line_stats                    1 # Turn on PTX source line statistic profiling. (1 = On)
+-ptx_line_stats_filename gpgpu_inst_stats.txt # Output file for PTX source line statistics.
+-gpgpu_kernel_launch_latency                 5000 # Kernel launch latency in cycles. Default: 0
+-gpgpu_cdp_enabled                      0 # Turn on CDP
+-gpgpu_TB_launch_latency                    0 # thread block launch latency in cycles. Default: 0
+-trace                    ./kernelslist.g # traces kernel filetraces kernel file directory
+-trace_opcode_latency_initiation_int                  2,2 # Opcode latencies and initiation for integers in trace driven mode <latency,initiation>
+-trace_opcode_latency_initiation_sp                  2,1 # Opcode latencies and initiation for sp in trace driven mode <latency,initiation>
+-trace_opcode_latency_initiation_dp                64,64 # Opcode latencies and initiation for dp in trace driven mode <latency,initiation>
+-trace_opcode_latency_initiation_sfu                 21,8 # Opcode latencies and initiation for sfu in trace driven mode <latency,initiation>
+-trace_opcode_latency_initiation_tensor                32,32 # Opcode latencies and initiation for tensor in trace driven mode <latency,initiation>
+-trace_opcode_latency_initiation_spec_op_1                  4,4 # specialized unit config <latency,initiation>
+-trace_opcode_latency_initiation_spec_op_2                200,4 # specialized unit config <latency,initiation>
+-trace_opcode_latency_initiation_spec_op_3                32,32 # specialized unit config <latency,initiation>
+-trace_opcode_latency_initiation_spec_op_4                  4,1 # specialized unit config <latency,initiation>
+-trace_opcode_latency_initiation_spec_op_5                  4,4 # specialized unit config <latency,initiation>
+-trace_opcode_latency_initiation_spec_op_6                  4,4 # specialized unit config <latency,initiation>
+-trace_opcode_latency_initiation_spec_op_7                  4,4 # specialized unit config <latency,initiation>
+-trace_opcode_latency_initiation_spec_op_8                  4,4 # specialized unit config <latency,initiation>
+DRAM Timing Options:
+nbk                                    16 # number of banks
+CCD                                     4 # column to column delay
+RRD                                    12 # minimal delay between activation of rows in different banks
+RCD                                    24 # row to column delay
+RAS                                    55 # time needed to activate row
+RP                                     24 # time needed to precharge (deactivate) row
+RC                                     78 # row cycle time
+CDLR                                   10 # switching from write to read (changes tWTR)
+WR                                     24 # last data-in to row precharge
+CL                                     24 # CAS latency
+WL                                      8 # Write latency
+nbkgrp                                  4 # number of bank groups
+CCDL                                    6 # column to column delay between accesses to different bank groups
+RTPL                                    4 # read to precharge delay between accesses to different bank groups
+Total number of memory sub partition = 32
+addr_dec_mask[CHIP]  = 0000000000000f00 	high:12 low:8
+addr_dec_mask[BK]    = 0000000000070080 	high:19 low:7
+addr_dec_mask[ROW]   = 00000000fff80000 	high:32 low:19
+addr_dec_mask[COL]   = 000000000000f07f 	high:16 low:0
+addr_dec_mask[BURST] = 000000000000001f 	high:5 low:0
+sub_partition_id_mask = 0000000000000080
+GPGPU-Sim uArch: clock freqs: 1132000000.000000:1132000000.000000:1132000000.000000:1132000000.000000:3500500000.000000
+GPGPU-Sim uArch: clock periods: 0.00000000088339222615:0.00000000088339222615:0.00000000000000000000:0.00000000088339222615:0.00000000028567347522
+*** Initializing Memory Statistics ***
+GPGPU-Sim uArch: performance model initialization complete.
+launching memcpy command : MemcpyHtoD,0x00007f9d94000000,85191092
+launching memcpy command : MemcpyHtoD,0x00007f9d14000000,2120204360
+launching memcpy command : MemcpyHtoD,0x00007f9d0e000000,85191092
+launching memcpy command : MemcpyHtoD,0x00007f9b00000000,2120204360
+launching memcpy command : MemcpyHtoD,0x00007f9b7e600000,21297772
+launching memcpy command : MemcpyHtoD,0x00007f9cee000000,530051090
+launching memcpy command : MemcpyHtoD,0x00007f9dd6101000,28
+launching memcpy command : MemcpyHtoD,0x00007f9dd6101600,491520
+launching memcpy command : MemcpyHtoD,0x00007f9dd6100000,688
+launching memcpy command : MemcpyHtoD,0x00007f9dd6100600,4
+launching memcpy command : MemcpyHtoD,0x00007f9dd6100800,4
+launching memcpy command : MemcpyHtoD,0x00007f9dd6101000,28
+Processing kernel ./kernel-10.traceg
+-kernel name = _ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_
+-kernel id = 10
+-grid dim = (544,1,1)
+-block dim = (256,1,1)
+-shmem = 12160
+-nregs = 34
+-binary version = 86
+-cuda stream id = -685638256
+-shmem base_addr = 0x00007f9e58000000
+-local mem base_addr = 0x00007f9e56000000
+-nvbit version = 1.5.3
+-accelsim tracer version = 3
+launching kernel command : ./kernel-10.traceg
+GPGPU-Sim uArch: Shader 0 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+GPGPU-Sim uArch: CTA/core = 6, limited by: threads
+GPGPU-Sim: Reconfigure L1 cache to 28KB
+thread block = 0,0,0
+GPGPU-Sim uArch: Shader 1 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 1,0,0
+GPGPU-Sim uArch: Shader 2 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 2,0,0
+GPGPU-Sim uArch: Shader 3 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 3,0,0
+GPGPU-Sim uArch: Shader 4 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 4,0,0
+GPGPU-Sim uArch: Shader 5 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 5,0,0
+GPGPU-Sim uArch: Shader 6 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 6,0,0
+GPGPU-Sim uArch: Shader 7 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 7,0,0
+GPGPU-Sim uArch: Shader 8 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 8,0,0
+GPGPU-Sim uArch: Shader 9 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 9,0,0
+GPGPU-Sim uArch: Shader 10 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 10,0,0
+GPGPU-Sim uArch: Shader 11 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 11,0,0
+GPGPU-Sim uArch: Shader 12 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 12,0,0
+GPGPU-Sim uArch: Shader 13 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 13,0,0
+GPGPU-Sim uArch: Shader 14 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 14,0,0
+GPGPU-Sim uArch: Shader 15 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 15,0,0
+GPGPU-Sim uArch: Shader 16 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 16,0,0
+GPGPU-Sim uArch: Shader 17 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 17,0,0
+GPGPU-Sim uArch: Shader 18 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 18,0,0
+GPGPU-Sim uArch: Shader 19 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 19,0,0
+GPGPU-Sim uArch: Shader 20 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 20,0,0
+GPGPU-Sim uArch: Shader 21 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 21,0,0
+GPGPU-Sim uArch: Shader 22 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 22,0,0
+GPGPU-Sim uArch: Shader 23 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 23,0,0
+GPGPU-Sim uArch: Shader 24 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 24,0,0
+GPGPU-Sim uArch: Shader 25 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 25,0,0
+GPGPU-Sim uArch: Shader 26 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 26,0,0
+GPGPU-Sim uArch: Shader 27 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 27,0,0
+GPGPU-Sim uArch: Shader 28 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 28,0,0
+GPGPU-Sim uArch: Shader 29 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 29,0,0
+GPGPU-Sim uArch: Shader 30 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 30,0,0
+GPGPU-Sim uArch: Shader 31 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 31,0,0
+GPGPU-Sim uArch: Shader 32 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 32,0,0
+GPGPU-Sim uArch: Shader 33 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 33,0,0
+GPGPU-Sim uArch: Shader 34 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 34,0,0
+GPGPU-Sim uArch: Shader 35 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 35,0,0
+GPGPU-Sim uArch: Shader 36 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 36,0,0
+GPGPU-Sim uArch: Shader 37 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 37,0,0
+GPGPU-Sim uArch: Shader 38 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 38,0,0
+GPGPU-Sim uArch: Shader 39 bind to kernel 1 '_ZN7gunrock5oprtr4CULL6KernelILj1EjjjijZNS_3app3bfs16BFSIterationLoopINS4_7EnactorINS4_7ProblemINS3_9TestGraphIjjiLj768ELj0EEEjiLj0EEELj0ELj0EEEE4CoreEiEUlRKjRjSE_SE_SE_SF_E0_EEvbT2_PKT0_PKT3_SH_T4_PSO_PhPT1_NS_4util15CtaWorkProgressISH_EET5_'
+thread block = 39,0,0
+thread block = 40,0,0
+thread block = 41,0,0
+thread block = 42,0,0
+thread block = 43,0,0
+thread block = 44,0,0
+thread block = 45,0,0
+thread block = 46,0,0
+thread block = 47,0,0
+thread block = 48,0,0
+thread block = 49,0,0
+thread block = 50,0,0
+thread block = 51,0,0
+thread block = 52,0,0
+thread block = 53,0,0
+thread block = 54,0,0
+thread block = 55,0,0
+thread block = 56,0,0
+thread block = 57,0,0
+thread block = 58,0,0
+thread block = 59,0,0
+thread block = 60,0,0
+thread block = 61,0,0
+thread block = 62,0,0
+thread block = 63,0,0
+thread block = 64,0,0
+thread block = 65,0,0
+thread block = 66,0,0
+thread block = 67,0,0
+thread block = 68,0,0
+thread block = 69,0,0
+thread block = 70,0,0
+thread block = 71,0,0
+thread block = 72,0,0
+thread block = 73,0,0
+thread block = 74,0,0
+thread block = 75,0,0
+thread block = 76,0,0
+thread block = 77,0,0
+thread block = 78,0,0
+thread block = 79,0,0
+thread block = 80,0,0
+thread block = 81,0,0
+thread block = 82,0,0
+thread block = 83,0,0
+thread block = 84,0,0
+thread block = 85,0,0
+thread block = 86,0,0
+thread block = 87,0,0
+thread block = 88,0,0
+thread block = 89,0,0
+thread block = 90,0,0
+thread block = 91,0,0
+thread block = 92,0,0
+thread block = 93,0,0
+thread block = 94,0,0
+thread block = 95,0,0
+thread block = 96,0,0
+thread block = 97,0,0
+thread block = 98,0,0
+thread block = 99,0,0
+thread block = 100,0,0
+thread block = 101,0,0
+thread block = 102,0,0
+thread block = 103,0,0
+thread block = 104,0,0
+thread block = 105,0,0
+thread block = 106,0,0
+thread block = 107,0,0
+thread block = 108,0,0
+thread block = 109,0,0
+thread block = 110,0,0
+thread block = 111,0,0
+thread block = 112,0,0
+thread block = 113,0,0
+thread block = 114,0,0
+thread block = 115,0,0
+thread block = 116,0,0
+thread block = 117,0,0
+thread block = 118,0,0
+thread block = 119,0,0
+thread block = 120,0,0
+thread block = 121,0,0
+thread block = 122,0,0
+thread block = 123,0,0
+thread block = 124,0,0
+thread block = 125,0,0
+thread block = 126,0,0
+thread block = 127,0,0
+thread block = 128,0,0
+thread block = 129,0,0
+thread block = 130,0,0
+thread block = 131,0,0
+thread block = 132,0,0
+thread block = 133,0,0
+thread block = 134,0,0
+thread block = 135,0,0
+thread block = 136,0,0
+thread block = 137,0,0
+thread block = 138,0,0
+thread block = 139,0,0
+thread block = 140,0,0
+thread block = 141,0,0
+thread block = 142,0,0
+thread block = 143,0,0
+thread block = 144,0,0
+thread block = 145,0,0
+thread block = 146,0,0
+thread block = 147,0,0
+thread block = 148,0,0
+thread block = 149,0,0
+thread block = 150,0,0
+thread block = 151,0,0
+thread block = 152,0,0
+thread block = 153,0,0
+thread block = 154,0,0
+thread block = 155,0,0
+thread block = 156,0,0
+thread block = 157,0,0
+thread block = 158,0,0
+thread block = 159,0,0
+thread block = 160,0,0
+thread block = 161,0,0
+thread block = 162,0,0
+thread block = 163,0,0
+thread block = 164,0,0
+thread block = 165,0,0
+thread block = 166,0,0
+thread block = 167,0,0
+thread block = 168,0,0
+thread block = 169,0,0
+thread block = 170,0,0
+thread block = 171,0,0
+thread block = 172,0,0
+thread block = 173,0,0
+thread block = 174,0,0
+thread block = 175,0,0
+thread block = 176,0,0
+thread block = 177,0,0
+thread block = 178,0,0
+thread block = 179,0,0
+thread block = 180,0,0
+thread block = 181,0,0
+thread block = 182,0,0
+thread block = 183,0,0
+thread block = 184,0,0
+thread block = 185,0,0
+thread block = 186,0,0
+thread block = 187,0,0
+thread block = 188,0,0
+thread block = 189,0,0
+thread block = 190,0,0
+thread block = 191,0,0
+thread block = 192,0,0
+thread block = 193,0,0
+thread block = 194,0,0
+thread block = 195,0,0
+thread block = 196,0,0
+thread block = 197,0,0
+thread block = 198,0,0
+thread block = 199,0,0
+thread block = 200,0,0
+thread block = 201,0,0
+thread block = 202,0,0
+thread block = 203,0,0
+thread block = 204,0,0
+thread block = 205,0,0
+thread block = 206,0,0
+thread block = 207,0,0
+thread block = 208,0,0
+thread block = 209,0,0
+thread block = 210,0,0
+thread block = 211,0,0
+thread block = 212,0,0
+thread block = 213,0,0
+thread block = 214,0,0
+thread block = 215,0,0
+thread block = 216,0,0
+thread block = 217,0,0
+thread block = 218,0,0
+thread block = 219,0,0
+thread block = 220,0,0
+thread block = 221,0,0
+thread block = 222,0,0
+thread block = 223,0,0
+thread block = 224,0,0
+thread block = 225,0,0
+thread block = 226,0,0
+thread block = 227,0,0
+thread block = 228,0,0
+thread block = 229,0,0
+thread block = 230,0,0
+thread block = 231,0,0
+thread block = 232,0,0
+thread block = 233,0,0
+thread block = 234,0,0
+thread block = 235,0,0
+thread block = 236,0,0
+thread block = 237,0,0
+thread block = 238,0,0
+thread block = 239,0,0
+thread block = 240,0,0
+thread block = 241,0,0
+thread block = 242,0,0
+thread block = 243,0,0
+thread block = 244,0,0
+thread block = 245,0,0
+thread block = 246,0,0
+thread block = 247,0,0
+thread block = 248,0,0
+thread block = 249,0,0
+thread block = 250,0,0
+thread block = 251,0,0
+thread block = 252,0,0
+thread block = 253,0,0
+thread block = 254,0,0
+thread block = 255,0,0
+thread block = 256,0,0
+thread block = 257,0,0
+thread block = 258,0,0
+thread block = 259,0,0
+thread block = 260,0,0
+thread block = 261,0,0
+thread block = 262,0,0
+thread block = 263,0,0
+thread block = 264,0,0
+thread block = 265,0,0
+thread block = 266,0,0
+thread block = 267,0,0
+thread block = 268,0,0
+thread block = 269,0,0
+thread block = 270,0,0
+thread block = 271,0,0
+thread block = 272,0,0
+thread block = 273,0,0
+thread block = 274,0,0
+thread block = 275,0,0
+thread block = 276,0,0
+thread block = 277,0,0
+thread block = 278,0,0
+thread block = 279,0,0
+thread block = 280,0,0
+thread block = 281,0,0
+thread block = 282,0,0
+thread block = 283,0,0
+thread block = 284,0,0
+thread block = 285,0,0
+thread block = 286,0,0
+thread block = 287,0,0
+thread block = 288,0,0
+thread block = 289,0,0
+thread block = 290,0,0
+thread block = 291,0,0
+thread block = 292,0,0
+thread block = 293,0,0
+thread block = 294,0,0
+thread block = 295,0,0
+thread block = 296,0,0
+thread block = 297,0,0
+thread block = 298,0,0
+thread block = 299,0,0
+thread block = 300,0,0
+thread block = 301,0,0
+thread block = 302,0,0
+thread block = 303,0,0
+thread block = 304,0,0
+thread block = 305,0,0
+thread block = 306,0,0
+thread block = 307,0,0
+thread block = 308,0,0
+thread block = 309,0,0
+thread block = 310,0,0
+thread block = 311,0,0
+thread block = 312,0,0
+thread block = 313,0,0
+thread block = 314,0,0
+thread block = 315,0,0
+thread block = 316,0,0
+thread block = 317,0,0
+thread block = 318,0,0
+thread block = 319,0,0
+thread block = 320,0,0
+thread block = 321,0,0
+thread block = 322,0,0
+thread block = 323,0,0
+thread block = 324,0,0
+thread block = 325,0,0
+thread block = 326,0,0
+thread block = 327,0,0
+thread block = 328,0,0
+thread block = 329,0,0
+thread block = 330,0,0
+thread block = 331,0,0
+thread block = 332,0,0
+thread block = 333,0,0
+thread block = 334,0,0
+thread block = 335,0,0
+thread block = 336,0,0
+thread block = 337,0,0
+thread block = 338,0,0
+thread block = 339,0,0
+thread block = 340,0,0
+thread block = 341,0,0
+thread block = 342,0,0
+thread block = 343,0,0
+thread block = 344,0,0
+thread block = 345,0,0
+thread block = 346,0,0
+thread block = 347,0,0
+thread block = 348,0,0
+thread block = 349,0,0
+thread block = 350,0,0
+thread block = 351,0,0
+thread block = 352,0,0
+thread block = 353,0,0
+thread block = 354,0,0
+thread block = 355,0,0
+thread block = 356,0,0
+thread block = 357,0,0
+thread block = 358,0,0
+thread block = 359,0,0
+thread block = 360,0,0
+thread block = 361,0,0
+thread block = 362,0,0
+thread block = 363,0,0
+thread block = 364,0,0
+thread block = 365,0,0
+thread block = 366,0,0
+thread block = 367,0,0
+thread block = 368,0,0
+thread block = 369,0,0
+thread block = 370,0,0
+thread block = 371,0,0
+thread block = 372,0,0
+thread block = 373,0,0
+thread block = 374,0,0
+thread block = 375,0,0
+thread block = 376,0,0
+thread block = 377,0,0
+thread block = 378,0,0
+thread block = 379,0,0
+thread block = 380,0,0
+thread block = 381,0,0
+thread block = 382,0,0
+thread block = 383,0,0
+thread block = 384,0,0
+thread block = 385,0,0
+thread block = 386,0,0
+thread block = 387,0,0
+thread block = 388,0,0
+thread block = 389,0,0
+thread block = 390,0,0
+thread block = 391,0,0
+thread block = 392,0,0
+thread block = 393,0,0
+thread block = 394,0,0
+thread block = 395,0,0
+thread block = 396,0,0
+thread block = 397,0,0
+thread block = 398,0,0
+thread block = 399,0,0
+thread block = 400,0,0
+thread block = 401,0,0
+thread block = 402,0,0
+thread block = 403,0,0
+thread block = 404,0,0
+thread block = 405,0,0
+thread block = 406,0,0
+thread block = 407,0,0
+thread block = 408,0,0
+thread block = 409,0,0
+thread block = 410,0,0
+thread block = 411,0,0
+thread block = 412,0,0
+thread block = 413,0,0
+thread block = 414,0,0
+thread block = 415,0,0
+thread block = 416,0,0
+thread block = 417,0,0
+thread block = 418,0,0
+thread block = 419,0,0
+thread block = 420,0,0
+thread block = 421,0,0
+thread block = 422,0,0
+thread block = 423,0,0
+thread block = 424,0,0
+thread block = 425,0,0
+thread block = 426,0,0
+thread block = 427,0,0
+thread block = 428,0,0
+thread block = 429,0,0
+thread block = 430,0,0
+thread block = 431,0,0
+thread block = 432,0,0
+thread block = 433,0,0
+thread block = 434,0,0
+thread block = 435,0,0
+thread block = 436,0,0
+thread block = 437,0,0
+thread block = 438,0,0
+thread block = 439,0,0
+thread block = 440,0,0
+thread block = 441,0,0
+thread block = 442,0,0
+thread block = 443,0,0
+thread block = 444,0,0
+thread block = 445,0,0
+thread block = 446,0,0
+thread block = 447,0,0
+thread block = 448,0,0
+thread block = 449,0,0
+thread block = 450,0,0
+thread block = 451,0,0
+thread block = 452,0,0
+thread block = 453,0,0
+thread block = 454,0,0
+thread block = 455,0,0
+thread block = 456,0,0
+thread block = 457,0,0
+thread block = 458,0,0
+thread block = 459,0,0
+thread block = 460,0,0
+thread block = 461,0,0
+thread block = 462,0,0
+thread block = 463,0,0
+thread block = 464,0,0
+thread block = 465,0,0
+thread block = 466,0,0
+thread block = 467,0,0
+thread block = 468,0,0
+thread block = 469,0,0
+thread block = 470,0,0
+thread block = 471,0,0
+thread block = 472,0,0
+thread block = 473,0,0
+thread block = 474,0,0
+thread block = 475,0,0
+thread block = 476,0,0
+thread block = 477,0,0
+thread block = 478,0,0
+thread block = 479,0,0
+thread block = 480,0,0
+thread block = 481,0,0
+thread block = 482,0,0
+thread block = 483,0,0
+thread block = 484,0,0
+thread block = 485,0,0
+thread block = 486,0,0
+thread block = 487,0,0
+thread block = 488,0,0
+thread block = 489,0,0
+thread block = 490,0,0
+thread block = 491,0,0
+thread block = 492,0,0
+thread block = 493,0,0
+thread block = 494,0,0
+thread block = 495,0,0
+thread block = 496,0,0
+thread block = 497,0,0
+thread block = 498,0,0
+thread block = 499,0,0
+thread block = 500,0,0
+thread block = 501,0,0
+thread block = 502,0,0
+thread block = 503,0,0
+thread block = 504,0,0
+thread block = 505,0,0
+thread block = 506,0,0
+thread block = 507,0,0
+thread block = 508,0,0
+thread block = 509,0,0
+thread block = 510,0,0
+thread block = 511,0,0
+thread block = 512,0,0
+thread block = 513,0,0
+thread block = 514,0,0
+thread block = 515,0,0
+thread block = 516,0,0
+thread block = 517,0,0
+thread block = 518,0,0
+thread block = 519,0,0
+thread block = 520,0,0
+thread block = 521,0,0
+thread block = 522,0,0
+thread block = 523,0,0
+thread block = 524,0,0
+thread block = 525,0,0
+thread block = 526,0,0
+thread block = 527,0,0
+thread block = 528,0,0
+thread block = 529,0,0
+thread block = 530,0,0
+thread block = 531,0,0
+thread block = 532,0,0
+thread block = 533,0,0
+thread block = 534,0,0
+thread block = 535,0,0
+thread block = 536,0,0
+thread block = 537,0,0
+thread block = 538,0,0
+thread block = 539,0,0
+thread block = 540,0,0
+thread block = 541,0,0
+thread block = 542,0,0
+thread block = 543,0,0
+
+
+GPGPU-Sim uArch: ERROR ** deadlock detected: last writeback core 37 @ gpu_sim_cycle 11254 (+ gpu_tot_sim_cycle 4294867296) (88746 cycles ago)
+GPGPU-Sim uArch: DEADLOCK  shader cores no longer committing instructions [core(# threads)]:
+GPGPU-Sim uArch: DEADLOCK  0(1536) 1(1536) 2(1536) 3(1536) 4(1536) 5(1536) 6(1536) 7(1536)  + others ...  + others ...  + others ...  + others ...  + others ...  + others ...  + others ...  + others ...  + others ...  + others ...  + others ...  + others ...  + others ...  + others ...  + others ...  + others ...  + others ...  + others ...  + others ...  + others ...  + others ...  + others ... 
+GPGPU-Sim uArch DEADLOCK:  iterconnect contains traffic
+GPGPU-Sim uArch: ICNT:Display State: Under implementation
+
+Re-run the simulator in gdb and use debug routines in .gdbinit to debug this
