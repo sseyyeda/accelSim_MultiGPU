@@ -1,4 +1,3 @@
-----------------------2022.1.31 Shiqing Zhang----------------------
 
 Add chiplet_id for class trace_cluster to ensure consistency with our gpgpu-sim changes, otherwise it will not compile and run successfully.
 See the branch feature-chiplet of gpgpusim-chiplet for details.
