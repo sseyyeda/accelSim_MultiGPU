@@ -1,3 +1,9 @@
+# Run under the DB CTA Scheduling
+
+First, you need to postprocess the trace files using the trace splitter. Here is the command line to do so:
+pathToAccelSim/gpu-simulator/trace-parser/trace_split kernel-#.trace chiplet_count
+
+# Attention
 
 Add chiplet_id for class trace_cluster to ensure consistency with our gpgpu-sim changes, otherwise it will not compile and run successfully.
 See the branch feature-chiplet of gpgpusim-chiplet for details.
